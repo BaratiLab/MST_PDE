@@ -18,7 +18,7 @@ To use the MST_PDE framework, follow these steps:
 
 ## Datasets:
 
-We use the first 1000 samples from the NS datasets available in [here](https://drive.google.com/drive/folders/1UnbQh2WWc6knEHbLn-ZaXrKUZhp7pjt-?usp=drive_link). We use the first N samples and T time-steps as specified in the python files, and the whole KF_Re40 dataset. A `.npy` version of the data files will be available soon, which will be more convenient to use directly.
+We use the NS datasets available [here](https://drive.google.com/drive/folders/1UnbQh2WWc6knEHbLn-ZaXrKUZhp7pjt-?usp=drive_link)(excluding the r256 file with v1e-4). We use the first N samples and T time-steps as specified in the python files, and the whole KF_Re40 dataset. A `.npy` version of the data files will be available soon, which will be more convenient to use directly.
 
 ## Usage
 
