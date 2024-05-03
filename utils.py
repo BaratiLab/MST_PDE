@@ -32,6 +32,16 @@ def what_is(x):
     except:
         pass
 
+def file_size(file_path):
+    size_bytes = os.path.getsize(file_path)
+    if size_bytes == 0:
+        return "0B"
+    size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+    i = int(np.floor(np.log(size_bytes) / np.log(1024)))
+    p = np.power(1024, i)
+    s = round(size_bytes / p, 2)
+    return "%s %s" % (s, size_name[i])
+
 
 def load_data(file_name, tensor=True):
     data_path = os.path.join(DATA_DIR, file_name)
