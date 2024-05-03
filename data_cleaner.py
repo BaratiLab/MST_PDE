@@ -145,9 +145,7 @@ def clean_ns_V1e_3_N5000_T50(just_checking=False): # tested
 
     data['a'] = data['a'].transpose(2, 1, 0)[:, None, :, :] # (Y, X, N) -> (N, 1, X, Y)
     data['u'] = data['u'].transpose(3, 0, 2, 1) # (T, Y, X, N) -> (N, T, X, Y)
-    data['u'] = np.split(data['u'], data['u'].shape[1], axis=1) # list of (N, 1, X, Y)s
-    data['u'].insert(0, data['a'])
-    data['u'] = np.concatenate(data['u'], axis=1)
+    data['u'] = np.concatenate([data['a'], data['u']], axis=1)
     
     new_file_path = FNO_data_cleaned_path + '/NS_v1e-3_N5000_T50.npy'
     np.save(new_file_path, data['u'])
@@ -170,12 +168,10 @@ def clean_ns_V1e_4_N10000_T30(just_checking=False): # tested
 
     # Despite the name of the file, the data has 50 timesteps.
 
-    data['a'] = data['a'].transpose(2, 0, 1) # (X, Y, N) -> (N, X, Y)
+    data['a'] = data['a'].transpose(2, 0, 1)[:, None, :, :] # (X, Y, N) -> (N, 1, X, Y)
     data['u'] = data['u'].transpose(3, 0, 1, 2) # (T, X, Y, N) -> (N, T, X, Y)
      
-    # data['u'] = np.split(data['u'], data['u'].shape[1], axis=1)
-    # data['u'].insert(0, data['a'])
-    # data['u'] = np.concatenate(data['u'], axis=1)
+    # data['u'] = np.concatenate([data['a'], data['u']], axis=1)
 
     # The above code cannot succeed because the concatenated array is too large to fit in the memory.
     # So, we need to create a placeholder for the new data as a memory mapped array.
@@ -183,7 +179,7 @@ def clean_ns_V1e_4_N10000_T30(just_checking=False): # tested
     # Creating a memory mapped array on the disk in the mode 'w+', and filling it with our data:
     temp_file_path = FNO_data_cleaned_path + '/temp_array.npy'
     temp_memmap = np.memmap(temp_file_path, mode='w+', dtype='float32', shape=(10000, 51, 64, 64))
-    temp_memmap[:, 0, :, :] = data['a']
+    temp_memmap[:, :1, :, :] = data['a']
     temp_memmap[:, 1:, :, :] = data['u']
     # Opening the memory mapped array in the mode 'r' and saving it as a normal .npy file:
     temp_memmap = np.memmap(temp_file_path, mode='r' , dtype='float32', shape=(10000, 51, 64, 64))
@@ -210,11 +206,9 @@ def clean_ns_data_V1e_4_N20_T50_R256test(just_checking=False): # tested
         return
 
     data['a'] = data['a'][:, None, :, :] # (N, X, Y) -> (N, 1, X, Y)
-    data['u'] = data['u'].transpose(0, 3, 1, 2) # (N, X, Y, T) -> (N, T< X, Y)
+    data['u'] = data['u'].transpose(0, 3, 1, 2) # (N, X, Y, T) -> (N, T, X, Y)
     data['u'] = data['u'][:, 3::4, :, :] # (N, 200, X, Y) -> (N, 50, X, Y)
-    data['u'] = np.split(data['u'], data['u'].shape[1], axis=1)
-    data['u'].insert(0, data['a'])
-    data['u'] = np.concatenate(data['u'], axis=1)
+    data['u'] = np.concatenate([data['a'], data['u']], axis=1)
 
     new_file_path = FNO_data_cleaned_path + '/NS_v1e-4_N20_T50_r256.npy'
     np.save(new_file_path, data['u'])
@@ -237,9 +231,7 @@ def clean_NavierStokes_V1e_5_N1200_T20(just_checking=False): # tested
     
     data['a'] = data['a'][:, None, :, :] # (N, X, Y) -> (N, 1, X, Y)
     data['u'] = data['u'].transpose(0, 3, 1, 2) # (N, X, Y, T) -> (N, T, X, Y)
-    data['u'] = np.split(data['u'], data['u'].shape[1], axis=1)
-    data['u'].insert(0, data['a'])
-    data['u'] = np.concatenate(data['u'], axis=1)
+    data['u'] = np.concatenate([data['a'], data['u']], axis=1)
 
     new_file_path = FNO_data_cleaned_path + '/NS_v1e-5_N1200_T20.npy'
     np.save(new_file_path, data['u'])
