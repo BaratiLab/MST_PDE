@@ -11,7 +11,7 @@ from Model import L2normLoss
 import matplotlib
 matplotlib.rcParams['figure.autolayout'] = True
 
-DATA_DIR = '/media/pouya/DATA/PDE_data/FNO_data'
+DATA_DIR = '/media/pouya/DATA/PDE_data/FNO_data_cleaned'
 
 #plt.rcParams['figure.figsize'] = [8, 6]
 #plt.rcParams.update({'font.size': 20})
@@ -33,22 +33,12 @@ def what_is(x):
         pass
 
 
-def load_data(data='NS_V1e-5_N1200_T20', tensor=True):
-    """
-    Parameters
-    ----------
-    data : str
-        the name of the .npy file containing the data
-
-    Returns
-    -------
-    torch float tensor of shape (N, T, H, W)
-        data array as a torch tensor
-    """
-    array = np.load(DATA_DIR+'/'+data+'.npy').astype(np.float32)
-    if not tensor:
-        return array
-    return torch.as_tensor(array, dtype=torch.float)
+def load_data(file_name, tensor=True):
+    data_path = os.path.join(DATA_DIR, file_name)
+    if tensor:
+        return torch.as_tensor(np.load(data_path), dtype=torch.float)
+    else:
+        return np.load(data_path)
 
 
 def count_params(model):

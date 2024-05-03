@@ -31,17 +31,17 @@ args = parser.parse_args()
 
 benchmark = args.benchmark
 if benchmark == 1:
-    data_name = 'NS_V1e-3_N1200_T50'
+    file_name = 'MST_NS_v1e-3_N1200_T50.npy'
 elif benchmark == 2:
-    data_name = 'NS_V1e-4_N1200_T30'
+    file_name = 'MST_NS_v1e-4_N1200_T30.npy'
 elif benchmark == 3:
-    data_name = 'NS_V1e-5_N1200_T20'
+    file_name = 'MST_NS_v1e-5_N1200_T20.npy'
 
 elif benchmark == 7:
-    data_name = 'KF_Re40_N200_T500'
+    file_name = 'KFvorticity_Re40_N200_T500.npy'
 
 if benchmark>0:
-    data_array = load_data(data_name)
+    data_array = load_data(file_name)
 else:
     data_array = np.random.randn(192,11,64,64).astype(np.float32)
 
