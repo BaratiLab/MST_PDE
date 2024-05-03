@@ -168,8 +168,8 @@ def clean_ns_V1e_4_N10000_T30(just_checking=False): # tested
 
     # Despite the name of the file, the data has 50 timesteps.
 
-    data['a'] = data['a'].transpose(2, 0, 1)[:, None, :, :] # (X, Y, N) -> (N, 1, X, Y)
-    data['u'] = data['u'].transpose(3, 0, 1, 2) # (T, X, Y, N) -> (N, T, X, Y)
+    data['a'] = data['a'].transpose(2, 1, 0)[:, None, :, :] # (Y, X, N) -> (N, 1, X, Y)
+    data['u'] = data['u'].transpose(3, 0, 2, 1) # (T, Y, X, N) -> (N, T, X, Y)
      
     # data['u'] = np.concatenate([data['a'], data['u']], axis=1)
 
